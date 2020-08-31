@@ -5,6 +5,7 @@
 #include <DLL.h>
 #include <QCloseEvent>
 #include <QLabel>
+#include "mythread.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,11 +51,14 @@ public:
     friend int CALLBACK ErrorCallback(ULONG MsgId, ULONG wParam, ULONG lParam, PVOID pv, PVOID pContext, PVOID pCaller);
 
 
+signals:
+    void sendSuccessed(bool);
+
 private slots:
     void receivePointer(void*);
     void receiveQuitSymbol(bool);
-    void defaultSettings(bool a, bool b);
-    bool SendCMD(QString cmd);
+    void defaultSettings(bool, bool);
+    bool SendCMD(QString);
 
     void on_actionSelection_triggered();
 
@@ -84,8 +88,11 @@ private slots:
 
     void on_syncBtn_clicked();
 
+    void on_actionTest_triggered();
+
 private:
     Ui::MainWindow *ui;
+    MyThread *thread;
 
 };
 

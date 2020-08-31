@@ -1076,7 +1076,7 @@
      <x>0</x>
      <y>0</y>
      <width>821</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInterface">
@@ -1084,6 +1084,7 @@
      <string>Interface</string>
     </property>
     <addaction name="actionSelection"/>
+    <addaction name="actionTest"/>
    </widget>
    <addaction name="menuInterface"/>
   </widget>
@@ -1094,6 +1095,11 @@
    </property>
    <property name="statusTip">
     <string>Return to Interface Selection dialog.</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="text">
+    <string>Test</string>
    </property>
   </action>
  </widget>

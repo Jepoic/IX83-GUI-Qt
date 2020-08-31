@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent,
     // add Permanent Widget to StatusBar for displaying interface's status (open/close)
     ocWidget = new QLabel(this);
     ui->statusbar->addPermanentWidget(ocWidget);
+
+    thread = new MyThread(this);
+    connect(this, SIGNAL(sendSuccessed(bool)), thread, SLOT(receiveSuccessed(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -288,7 +291,7 @@ void MainWindow::on_closeBtn_clicked()
     SendCMD("L 0,0");
 
     // wait until command finished
-    Sleep(3000);
+    thread->start();
     /*
     QListWidgetItem *item = ui->listWidget->currentItem();
     QString name = item->text();
@@ -308,7 +311,7 @@ void MainWindow::on_closeBtn_clicked()
         }
     }
     */
-
+/*
     this->closeIf(this->pInterface);
 
     // in case clicking the Button 'Close Interface'
@@ -316,6 +319,7 @@ void MainWindow::on_closeBtn_clicked()
     ocWidget->setText("No interface is opened. Please open one from menu.");
 
     defaultSettings(false, true);
+    */
 }
 
 // 更好的效果是检测到登录成功，打开右侧面板
@@ -324,10 +328,12 @@ void MainWindow::on_closeBtn_clicked()
 void MainWindow::on_loginBtn_clicked()
 {
     SendCMD("L 1,1");
-    Sleep(3000);
+    thread->start();
+    /*
     SendCMD("OPE 0");
     defaultSettings(true, false);
     ui->loginBtn->setEnabled(false);
+    */
 }
 
 void MainWindow::on_sendBtn_clicked()
@@ -637,4 +643,9 @@ void MainWindow::on_syncBtn_clicked()
         ui->zSlider->setValue((int)(cvVal*100));
     else
         ui->zSlider->setValue((int)(cvVal*10));
+}
+
+void MainWindow::on_actionTest_triggered()
+{
+    emit sendSuccessed(true);
 }
