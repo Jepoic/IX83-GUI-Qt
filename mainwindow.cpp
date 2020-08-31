@@ -119,7 +119,7 @@ int	CALLBACK ErrorCallback(ULONG MsgId, ULONG wParam, ULONG lParam,
     UNREFERENCED_PARAMETER(pv);
 
     QMessageBox::warning(NULL, "Error", "Disconnect interface?");
-    mwself->closeInterface();
+    mwself->on_closeBtn_clicked();
     return 0;
 }
 
