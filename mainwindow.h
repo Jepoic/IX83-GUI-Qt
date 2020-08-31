@@ -54,7 +54,6 @@ private slots:
     void receivePointer(void*);
     void receiveQuitSymbol(bool);
     void defaultSettings(bool a, bool b);
-    void closeInterface();
     bool SendCMD(QString cmd);
 
     void on_actionSelection_triggered();

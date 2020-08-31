@@ -133,7 +133,7 @@ void MainWindow::closeEvent ( QCloseEvent *e )
                               "Are you sure to quit this application?",
                               QMessageBox::Yes, QMessageBox::No )
             == QMessageBox::Yes){
-        closeInterface();
+        on_closeBtn_clicked();
         e->accept();
         qApp->quit();
     }
@@ -231,44 +231,6 @@ void MainWindow::defaultSettings(bool a, bool b)
     ui->zSlider->setEnabled(a);
 }
 
-// BUG 2
-// 想要实现接收退出成功信号再closeIf，而不是用Sleep强行等待
-// loginBtn 同理
-void MainWindow::closeInterface()
-{
-    SendCMD("L 0,0");
-
-    // wait until command finished
-    Sleep(3000);
-    /*
-    QListWidgetItem *item = ui->listWidget->currentItem();
-    QString name = item->text();
-
-    while(!name.contains("+"))
-    {
-        QMessageBox::StandardButton result = QMessageBox::information(NULL,
-                                                                      "Information",
-                                                                      "Please wait until command success.",
-                                                                      QMessageBox::Ok|QMessageBox::Abort);
-        switch (result) {
-        case QMessageBox::Abort:
-            this->closeIf(this->pInterface);
-            return;
-        default:
-            break;
-        }
-    }
-    */
-
-    this->closeIf(this->pInterface);
-
-    // in case clicking the Button 'Close Interface'
-    // reset all the widgets
-    ocWidget->setText("No interface is opened. Please open one from menu.");
-
-    defaultSettings(false, true);
-}
-
 // send command function
 bool MainWindow::SendCMD(QString cmd)
 {
@@ -318,9 +280,42 @@ void MainWindow::on_actionSelection_triggered()
     IFdialog->exec();
 }
 
+// BUG 2
+// 想要实现接收退出成功信号再closeIf，而不是用Sleep强行等待
+// loginBtn 同理
 void MainWindow::on_closeBtn_clicked()
 {
-    closeInterface();
+    SendCMD("L 0,0");
+
+    // wait until command finished
+    Sleep(3000);
+    /*
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    QString name = item->text();
+
+    while(!name.contains("+"))
+    {
+        QMessageBox::StandardButton result = QMessageBox::information(NULL,
+                                                                      "Information",
+                                                                      "Please wait until command success.",
+                                                                      QMessageBox::Ok|QMessageBox::Abort);
+        switch (result) {
+        case QMessageBox::Abort:
+            this->closeIf(this->pInterface);
+            return;
+        default:
+            break;
+        }
+    }
+    */
+
+    this->closeIf(this->pInterface);
+
+    // in case clicking the Button 'Close Interface'
+    // reset all the widgets
+    ocWidget->setText("No interface is opened. Please open one from menu.");
+
+    defaultSettings(false, true);
 }
 
 // 更好的效果是检测到登录成功，打开右侧面板
