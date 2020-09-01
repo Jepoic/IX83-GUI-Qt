@@ -1,4 +1,5 @@
-#include "waitthread.h"
+#include "WaitThread.h"
+#include <QDebug>
 
 WaitThread::WaitThread(QObject *parent) :
     QThread(parent)
@@ -8,9 +9,12 @@ WaitThread::WaitThread(QObject *parent) :
 
 void WaitThread::run()
 {
+    qreal i = 0;
     while (!successed)
     {
-        msleep(10);
+        qDebug() << QString("in WorkThread: %1").arg(i);
+        msleep(1000);
+        i++;
     }
     successed = false;
     emit sendMode(mode);

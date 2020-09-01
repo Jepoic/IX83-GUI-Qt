@@ -78,8 +78,7 @@ private slots:
     void on_zSlider_sliderReleased();
     void on_doubleSpinBox_valueChanged();
     void on_syncBtn_clicked();
-
-    void on_actionEmit_successed_triggered();
+    void on_actionTest_triggered();
 
 private:
     Ui::MainWindow *ui;

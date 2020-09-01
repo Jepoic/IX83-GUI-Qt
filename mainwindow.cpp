@@ -4,6 +4,7 @@
 #include <DLL.h>
 #include <cmd.h>
 #include <QMessageBox>
+#include <QDebug>
 
 Ui::MainWindow *uiself;
 MainWindow *mwself;
@@ -179,8 +180,7 @@ void MainWindow::receivePointer(void *pInterface_new)
     ocWidget->setText("An interface is open.");
 
     defaultSettings(false, true);
-    //ui->cmdLine->setEnabled(true);
-    //ui->sendBtn->setEnabled(true);
+    ui->sendBtn->setEnabled(true);
     ui->loginBtn->setEnabled(true);
     ui->closeBtn->setEnabled(true);
 }
@@ -336,7 +336,8 @@ void MainWindow::on_actionSelection_triggered()
 }
 
 // BUG 2
-// fixed 20200901, using a new wait thread
+// 想要实现接收退出成功信号再closeIf，而不是用Sleep强行等待
+// loginBtn 同理
 void MainWindow::on_closeBtn_clicked()
 {
     sendCmdPackage("L 0,0");
@@ -350,6 +351,9 @@ void MainWindow::on_closeBtn_clicked()
     emit sendMode(1);
 }
 
+// 更好的效果是检测到登录成功，打开右侧面板
+// 能否写一个并行线程检测到 < L 1,1后返回 > L +，打开右侧面板，关闭Login Button，然后销毁自身
+// 也就是同时允许用户输入命令来登录，而不是一定使用Login Button
 void MainWindow::on_loginBtn_clicked()
 {
     sendCmdPackage("L 1,1");
@@ -702,7 +706,7 @@ void MainWindow::on_syncBtn_clicked()
         ui->zSlider->setValue((int)(cvVal*10));
 }
 
-void MainWindow::on_actionEmit_successed_triggered()
+void MainWindow::on_actionTest_triggered()
 {
     emit sendSuccessed();
 }

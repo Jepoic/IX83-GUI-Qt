@@ -248,10 +248,7 @@
             <widget class="QPushButton" name="NFPBtn">
              <property name="font">
               <font>
-               <family>微软雅黑</family>
                <pointsize>11</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
               </font>
              </property>
              <property name="statusTip">
@@ -269,10 +266,7 @@
             <widget class="QLabel" name="label_6">
              <property name="font">
               <font>
-               <family>微软雅黑</family>
                <pointsize>10</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
               </font>
              </property>
              <property name="text">
@@ -290,10 +284,7 @@
             <widget class="QLabel" name="cvLabel">
              <property name="font">
               <font>
-               <family>微软雅黑</family>
                <pointsize>9</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
               </font>
              </property>
              <property name="statusTip">
@@ -311,10 +302,7 @@
             <widget class="QPushButton" name="syncBtn">
              <property name="font">
               <font>
-               <family>微软雅黑</family>
                <pointsize>11</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
               </font>
              </property>
              <property name="statusTip">
@@ -505,10 +493,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -532,10 +517,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -556,10 +538,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -592,10 +571,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -616,10 +592,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -649,10 +622,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -673,10 +643,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -703,10 +670,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -733,10 +697,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -763,10 +724,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -800,10 +758,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -827,10 +782,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -851,10 +803,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -887,10 +836,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -908,10 +854,7 @@
                 <widget class="QLabel" name="achievedLabel">
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -941,10 +884,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -959,10 +899,7 @@
                 <widget class="QLabel" name="acceleratedLabel">
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -992,10 +929,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>9</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -1022,10 +956,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="statusTip">
@@ -1052,10 +983,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>微软雅黑</family>
                    <pointsize>11</pointsize>
-                   <weight>50</weight>
-                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -1148,7 +1076,7 @@
      <x>0</x>
      <y>0</y>
      <width>821</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInterface">
@@ -1156,15 +1084,9 @@
      <string>Interface</string>
     </property>
     <addaction name="actionSelection"/>
-   </widget>
-   <widget class="QMenu" name="menuDevCheat">
-    <property name="title">
-     <string>DevCheat</string>
-    </property>
-    <addaction name="actionEmit_successed"/>
+    <addaction name="actionTest"/>
    </widget>
    <addaction name="menuInterface"/>
-   <addaction name="menuDevCheat"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSelection">
@@ -1175,9 +1097,9 @@
     <string>Return to Interface Selection dialog.</string>
    </property>
   </action>
-  <action name="actionEmit_successed">
+  <action name="actionTest">
    <property name="text">
-    <string>Emit successed</string>
+    <string>Test</string>
    </property>
   </action>
  </widget>
