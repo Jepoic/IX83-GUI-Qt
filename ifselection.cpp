@@ -29,7 +29,7 @@ IFSelection::IFSelection(QWidget *parent, void* pIF,
 
     // enumerate interfaces
     int static count = this->enumIf();
-    // count = 3;    // cheat code in case you don't have an interface
+    //count = 3;    // cheat code in case you don't have an interface
     while (!count)
     {
         QMessageBox:: StandardButton result = QMessageBox::critical(NULL,"Failed to enumerate interface",
@@ -73,7 +73,7 @@ void IFSelection::on_buttonBox_accepted()
     while (!ret)
     {
         ret = this->openIf(pInterface);
-        // ret = true;   // cheat code
+        //ret = true;   // cheat code
         if (!ret)
         {
             QMessageBox::StandardButton result = QMessageBox::critical(NULL,"Failed to open interface",
