@@ -18,15 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     ifselection.cpp \
     main.cpp \
-    mainwindow.cpp \
-    mythread.cpp
+    mainwindow.cpp
 
 HEADERS += \
     DLL.h \
     cmd.h \
     ifselection.h \
-    mainwindow.h \
-    mythread.h
+    mainwindow.h
 
 FORMS += \
     ifselection.ui \
