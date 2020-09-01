@@ -5,7 +5,7 @@
 #include <DLL.h>
 #include <QCloseEvent>
 #include <QLabel>
-#include "waitthread.h"
+#include "mythread.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,39 +50,49 @@ public:
     friend int CALLBACK NotifyCallback(ULONG MsgId, ULONG wParam, ULONG lParam, PVOID pv, PVOID pContext, PVOID pCaller);
     friend int CALLBACK ErrorCallback(ULONG MsgId, ULONG wParam, ULONG lParam, PVOID pv, PVOID pContext, PVOID pCaller);
 
-private:
-    void defaultSettings(bool, bool);
-    void waitSettings(bool);
-    bool sendCmdPackage(QString);
 
 signals:
-    void sendSuccessed();
-    void sendMode(int);
+    void sendSuccessed(bool);
 
 private slots:
     void receivePointer(void*);
     void receiveQuitSymbol(bool);
-    void receiveModeAndRun(int);
+    void defaultSettings(bool, bool);
+    bool SendCMD(QString);
 
     void on_actionSelection_triggered();
+
     void on_closeBtn_clicked();
+
     void on_loginBtn_clicked();
+
     void on_sendBtn_clicked();
+
     void on_fineBtn_clicked();
+
     void on_NFPBtn_clicked();
+
     void on_setBtn_clicked();
+
     void on_resetBtn_clicked();
+
     void on_escapeBtn_clicked();
+
     void on_setBtn_2_clicked();
+
     void on_resetBtn_2_clicked();
+
     void on_zSlider_sliderReleased();
+
     void on_doubleSpinBox_valueChanged();
+
     void on_syncBtn_clicked();
+
     void on_actionTest_triggered();
 
 private:
     Ui::MainWindow *ui;
-    WaitThread *waitThread;
+    MyThread *thread;
 
 };
 

@@ -19,14 +19,14 @@ SOURCES += \
     ifselection.cpp \
     main.cpp \
     mainwindow.cpp \
-    waitthread.cpp
+    mythread.cpp
 
 HEADERS += \
     DLL.h \
     cmd.h \
     ifselection.h \
     mainwindow.h \
-    waitthread.h
+    mythread.h
 
 FORMS += \
     ifselection.ui \

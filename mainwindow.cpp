@@ -9,8 +9,6 @@
 Ui::MainWindow *uiself;
 MainWindow *mwself;
 static int escapeVal;
-static bool isReset;
-static bool isReset2;
 
 MainWindow::MainWindow(QWidget *parent,
                        ptr_Initialize init,
@@ -43,17 +41,8 @@ MainWindow::MainWindow(QWidget *parent,
     ocWidget = new QLabel(this);
     ui->statusbar->addPermanentWidget(ocWidget);
 
-    // create a new wait sub thread
-    waitThread = new WaitThread(this);
-
-    // callback emit signal entry
-    connect(this, SIGNAL(sendSuccessed()), waitThread, SLOT(receiveSuccessed()));
-
-    // emit mode signal, see cmd.h for MODE definition
-    connect(this, SIGNAL(sendMode(int)), waitThread, SLOT(receiveMode(int)));
-
-    // receive mode signal, then run the specific code block corresponding to mode
-    connect(waitThread, SIGNAL(sendMode(int)), this, SLOT(receiveModeAndRun(int)));
+    thread = new MyThread(this);
+    connect(this, SIGNAL(sendSuccessed(bool)), thread, SLOT(receiveSuccessed(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -86,12 +75,7 @@ int CALLBACK CommandCallback(ULONG MsgId, ULONG wParam, ULONG lParam,
         uiself->listWidget->addItem(item);
         uiself->listWidget->setCurrentRow(uiself->listWidget->count() - 1);
         if (str.contains("+",Qt::CaseSensitive))
-        {
             uiself->statusbar->showMessage("Command success.", 3000);
-            if (!mwself->waitThread->isFinished())
-                emit mwself->sendSuccessed();
-        }
-
     }
     return 0;
 }
@@ -152,12 +136,7 @@ void MainWindow::closeEvent ( QCloseEvent *e )
                               "Are you sure to quit this application?",
                               QMessageBox::Yes, QMessageBox::No )
             == QMessageBox::Yes){
-        if(ui->closeBtn->isEnabled())
-        {
-            sendCmdPackage("L 0,0");
-            Sleep(3000);
-        }
-        closeIf(pInterface);
+        on_closeBtn_clicked();
         e->accept();
         qApp->quit();
     }
@@ -255,39 +234,8 @@ void MainWindow::defaultSettings(bool a, bool b)
     ui->zSlider->setEnabled(a);
 }
 
-void MainWindow::waitSettings(bool a)
-{
-    ui->loginBtn->setEnabled(a);
-    ui->closeBtn->setEnabled(a);
-    ui->cmdLine->setEnabled(a);
-    ui->sendBtn->setEnabled(a);
-    ui->doubleSpinBox->setEnabled(a);
-    ui->NFPBtn->setEnabled(a);
-    ui->syncBtn->setEnabled(a);
-    ui->escapeBtn->setEnabled(a);
-    ui->fineBtn->setEnabled(a);
-    ui->maxLine->setEnabled(a);
-    ui->minLine->setEnabled(a);
-    ui->setBtn->setEnabled(a);
-    ui->initLine->setEnabled(a);
-    ui->achievedLine->setEnabled(a);
-    ui->acceleratedLine->setEnabled(a);
-    ui->setBtn_2->setEnabled(a);
-    ui->zSlider->setEnabled(a);
-
-    if(isReset)
-    {
-        ui->resetBtn->setEnabled(!ui->resetBtn->isEnabled());
-    }
-
-    if(isReset2)
-    {
-        ui->resetBtn_2->setEnabled(!ui->resetBtn_2->isEnabled());
-    }
-}
-
 // send command function
-bool MainWindow::sendCmdPackage(QString cmd)
+bool MainWindow::SendCMD(QString cmd)
 {
     // command initiate
     int	len;
@@ -331,7 +279,7 @@ bool MainWindow::sendCmdPackage(QString cmd)
 void MainWindow::on_actionSelection_triggered()
 {
     IFSelection *IFdialog = new IFSelection(nullptr, this->pInterface, this->init, this->enumIf, this->getInfo, this->openIf, this->sendCmd, this->reCb, this->closeIf);
-    connect(IFdialog, SIGNAL(sendPointer(void*)), this, SLOT(receivePointer(void*)));
+    connect(IFdialog, SIGNAL(sendPointer(void*)), this, SLOT(ReceivePointer(void*)));
     IFdialog->exec();
 }
 
@@ -340,15 +288,38 @@ void MainWindow::on_actionSelection_triggered()
 // loginBtn 同理
 void MainWindow::on_closeBtn_clicked()
 {
-    sendCmdPackage("L 0,0");
-
-    isReset = ui->resetBtn->isEnabled();
-    isReset2 = ui->resetBtn_2->isEnabled();
-    waitSettings(false);
+    SendCMD("L 0,0");
 
     // wait until command finished
-    waitThread->start();
-    emit sendMode(1);
+    thread->start();
+    /*
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    QString name = item->text();
+
+    while(!name.contains("+"))
+    {
+        QMessageBox::StandardButton result = QMessageBox::information(NULL,
+                                                                      "Information",
+                                                                      "Please wait until command success.",
+                                                                      QMessageBox::Ok|QMessageBox::Abort);
+        switch (result) {
+        case QMessageBox::Abort:
+            this->closeIf(this->pInterface);
+            return;
+        default:
+            break;
+        }
+    }
+    */
+/*
+    this->closeIf(this->pInterface);
+
+    // in case clicking the Button 'Close Interface'
+    // reset all the widgets
+    ocWidget->setText("No interface is opened. Please open one from menu.");
+
+    defaultSettings(false, true);
+    */
 }
 
 // 更好的效果是检测到登录成功，打开右侧面板
@@ -356,52 +327,19 @@ void MainWindow::on_closeBtn_clicked()
 // 也就是同时允许用户输入命令来登录，而不是一定使用Login Button
 void MainWindow::on_loginBtn_clicked()
 {
-    sendCmdPackage("L 1,1");
-
-    isReset = ui->resetBtn->isEnabled();
-    isReset2 = ui->resetBtn_2->isEnabled();
-    waitSettings(false);
-
-    // wait until command finished
-    waitThread->start();
-    emit sendMode(2);
-
-}
-
-void MainWindow::receiveModeAndRun(int mode)
-{
-    switch (mode)
-    {
-    default:
-        return;
-    case 1:
-        this->closeIf(this->pInterface);
-
-        // in case clicking the Button 'Close Interface'
-        // reset all the widgets
-        ocWidget->setText("No interface is opened. Please open one from menu.");
-
-        defaultSettings(false, true);
-        return;
-    case 2:
-        sendCmdPackage("OPE 0");
-
-        // wait until command finished
-        waitThread->start();
-        emit sendMode(3);
-        return;
-    case 3:
-        defaultSettings(true, false);
-        ui->loginBtn->setEnabled(false);
-        return;
-
-    }
+    SendCMD("L 1,1");
+    thread->start();
+    /*
+    SendCMD("OPE 0");
+    defaultSettings(true, false);
+    ui->loginBtn->setEnabled(false);
+    */
 }
 
 void MainWindow::on_sendBtn_clicked()
 {
     QString cmd = ui->cmdLine->text();
-    sendCmdPackage(cmd);
+    SendCMD(cmd);
     ui->cmdLine->clear();
 }
 
@@ -455,7 +393,7 @@ void MainWindow::on_fineBtn_clicked()
     {
         QString command = "FG ";
         command.append(QString::number(maxVal*100, 10, 0));
-        sendCmdPackage(command);
+        SendCMD(command);
     }
 }
 
@@ -465,7 +403,7 @@ void MainWindow::on_NFPBtn_clicked()
     if (ui->NFPBtn->isChecked())
     {
         // from Unchecked to Checked
-        sendCmdPackage("NFP 1");
+        SendCMD("NFP 1");
         ui->NFPBtn->setChecked(true);
         ui->label_6->setVisible(true);
         ui->cvLabel->setVisible(true);
@@ -475,7 +413,7 @@ void MainWindow::on_NFPBtn_clicked()
     else
     {
         // from Checked to Unchecked
-        sendCmdPackage("NFP 0");
+        SendCMD("NFP 0");
         ui->fineBtn->setChecked(false);
         ui->label_6->setVisible(false);
         ui->cvLabel->setVisible(false);
@@ -525,7 +463,7 @@ void MainWindow::on_setBtn_clicked()
     {
         command.append(comma);
     }
-    sendCmdPackage(command);
+    SendCMD(command);
 
     ui->doubleSpinBox->setMaximum(maxVal);
     ui->doubleSpinBox->setMinimum(minVal);
@@ -565,7 +503,7 @@ void MainWindow::on_setBtn_clicked()
             newCommand.append(QString::number(maxVal*100, 10, 0));
         }
         Sleep(3000);
-        sendCmdPackage(newCommand);
+        SendCMD(newCommand);
     }
 
     // enable Reset Button
@@ -595,7 +533,7 @@ void MainWindow::on_escapeBtn_clicked()
 
         QString command = "FG ";
         command.append(QString::number(ui->doubleSpinBox->minimum()*100,10,0));
-        sendCmdPackage(command);
+        SendCMD(command);
 
         if (ui->fineBtn->isChecked())
             ui->zSlider->setValue((int)ui->doubleSpinBox->minimum()*10);
@@ -611,7 +549,7 @@ void MainWindow::on_escapeBtn_clicked()
         // from Checked to Unchecked
         QString command = "FG ";
         command.append(QString::number(escapeVal));
-        sendCmdPackage(command);
+        SendCMD(command);
 
         double spinVal = (double)escapeVal / 100;
         ui->doubleSpinBox->setValue(spinVal);
@@ -649,7 +587,7 @@ void MainWindow::on_setBtn_2_clicked()
         command.append(QString::number(achiSpeed * 100));
         command.append(",");
         command.append(QString::number(acceSpeed));
-        sendCmdPackage(command);
+        SendCMD(command);
     }
     ui->resetBtn_2->setEnabled(true);
 }
@@ -659,7 +597,7 @@ void MainWindow::on_resetBtn_2_clicked()
     ui->initLine->setText("700");
     ui->achievedLine->setText("3000");
     ui->acceleratedLine->setText("60");
-    sendCmdPackage("FSPD 70000,300000,60");
+    SendCMD("FSPD 70000,300000,60");
     ui->resetBtn_2->setEnabled(false);
 }
 
@@ -672,10 +610,11 @@ void MainWindow::on_zSlider_sliderReleased()
         val = val * 10;
     QString command = "FG ";
     command.append(QString::number(val));
-    sendCmdPackage(command);
+    SendCMD(command);
     double dVal = (double)val / 100;
     ui->doubleSpinBox->setValue(dVal);
 }
+
 
 void MainWindow::on_doubleSpinBox_valueChanged()
 {
@@ -684,7 +623,7 @@ void MainWindow::on_doubleSpinBox_valueChanged()
     double targetVal = ui->doubleSpinBox->value();
     QString command = "FG ";
     command.append(QString::number(targetVal * 100, 10, 0));
-    sendCmdPackage(command);
+    SendCMD(command);
 
     // set slider value
     if (ui->fineBtn->isChecked())
@@ -708,5 +647,5 @@ void MainWindow::on_syncBtn_clicked()
 
 void MainWindow::on_actionTest_triggered()
 {
-    emit sendSuccessed();
+    emit sendSuccessed(true);
 }
