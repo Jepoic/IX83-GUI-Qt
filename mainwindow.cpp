@@ -286,7 +286,7 @@ void MainWindow::waitSettings(bool a)
     }
 }
 
-// send command function
+// packaged send command function
 bool MainWindow::sendCmdPackage(QString cmd)
 {
     // command initiate
