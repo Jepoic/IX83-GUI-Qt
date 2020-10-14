@@ -1148,7 +1148,7 @@
      <x>0</x>
      <y>0</y>
      <width>821</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInterface">
@@ -1157,14 +1157,7 @@
     </property>
     <addaction name="actionSelection"/>
    </widget>
-   <widget class="QMenu" name="menuDevCheat">
-    <property name="title">
-     <string>DevCheat</string>
-    </property>
-    <addaction name="actionEmit_successed"/>
-   </widget>
    <addaction name="menuInterface"/>
-   <addaction name="menuDevCheat"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSelection">
